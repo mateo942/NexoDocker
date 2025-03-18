@@ -20,11 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
       - name: Build Docker image
         run: docker build . -t nexo-sdk -f src/${{ matrix.version }}/Dockerfile
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Tag Docker image
         run: docker tag nexo-sdk ghcr.io/${{ github.repository_owner }}/NexoDocker:${{ matrix.version }}
