@@ -5,22 +5,28 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      versions:
+        description: 'Versions to build (comma-separated)'
+        required: true
+        default: '54_0_3,54_0_2'
 
 jobs:
   build_and_push:
     runs-on: windows-latest
-    env:
-      VERSION: 54_0_3
+    strategy:
+      matrix:
+        version: ${{ fromJson('[''54_0_3'', ''54_0_2'']') }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build . -t nexo-sdk -f src/${{ env.VERSION }}/Dockerfile
+        run: docker build . -t nexo-sdk -f src/${{ matrix.version }}/Dockerfile
 
       - name: Tag Docker image
-        run: docker tag nexo-sdk mateo942/nexo-sdk:${{ env.VERSION }}
+        run: docker tag nexo-sdk ghcr.io/mateo942/nexo-sdk:${{ matrix.version }}
 
       - name: Push Docker image
-        run: docker push ghcr.io/mateo942/nexo-sdk:${{ env.VERSION }}
+        run: docker push ghcr.io/mateo942/nexo-sdk:${{ matrix.version }}
