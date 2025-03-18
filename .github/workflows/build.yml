@@ -1,0 +1,15 @@
+name: Hello World on Windows
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello-world:
+    runs-on: windows-latest
+
+    steps:
+      - name: Print Hello World
+        run: echo "Hello, World!"
