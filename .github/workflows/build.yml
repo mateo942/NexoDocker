@@ -27,7 +27,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Tag Docker image
-        run: docker tag nexo-sdk ghcr.io/${{ github.repository_owner }}/NexoDocker:${{ matrix.version }}
+        run: docker tag nexo-sdk ghcr.io/${{ github.repository_owner }}/nexodocker:${{ matrix.version }}
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository_owner }}/NexoDocker:${{ matrix.version }}
+        run: docker push ghcr.io/${{ github.repository_owner }}/nexodocker:${{ matrix.version }}
