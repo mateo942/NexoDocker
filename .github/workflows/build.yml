@@ -10,8 +10,8 @@ jobs:
   build_and_push:
     runs-on: windows-latest
     permissions:
-      contents: read
       packages: write
+      contents: read
     strategy:
       matrix:
         version: ${{ fromJson('[''54_0_3'']') }}
@@ -20,14 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to GitHub Container Registry
-        run: docker login -u $GITHUB_ACTOR -p ${secrets.GITHUB_TOKEN} ghcr.io
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build Docker image
         run: docker build . -t nexo-sdk -f src/${{ matrix.version }}/Dockerfile
 
       - name: Tag Docker image
-        run: docker tag nexo-sdk ghcr.io/mateo942/nexo-sdk:${{ matrix.version }}
+        run: docker tag nexo-sdk ghcr.io/${{ github.repository_owner }}/NexoDocker:${{ matrix.version }}
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository }}/nexo-sdk:${{ matrix.version }}
+        run: docker push ghcr.io/${{ github.repository_owner }}/NexoDocker:${{ matrix.version }}
