@@ -1,4 +1,4 @@
-name: Hello World on Windows
+name: Build nexo SDK
 
 on:
   push:
@@ -7,24 +7,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  hello-world:
+  build_and_push:
     runs-on: windows-latest
+    env:
+      VERSION: 54_0_3
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Print Hello World
-        run: echo "Hello, World!"
-
-      - name: Print PWD
-        run: pwd
-
-      - name: Print LS
-        run: ls
-
       - name: Build Docker image
-        run: docker build . -t my-windows-app -f src/54_0_3/Dockerfile
+        run: docker build . -t nexo-sdk -f src/${{ env.VERSION }}/Dockerfile
 
-      - name: Print Hello World
-        run: echo "Hello, World!"
+      - name: Tag Docker image
+        run: docker tag nexo-sdk mateo942/nexo-sdk:${{ env.VERSION }}
+
+      - name: Push Docker image
+        run: docker push ghcr.io/mateo942/nexo-sdk:${{ env.VERSION }}
