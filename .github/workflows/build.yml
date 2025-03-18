@@ -11,5 +11,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t my-windows-app -f src/50_0_3/Dockerfile
+
       - name: Print Hello World
         run: echo "Hello, World!"
