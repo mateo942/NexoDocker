@@ -4,11 +4,6 @@ ARG NEXO_VERSION="50_0_2"
 FROM mcr.microsoft.com/windows/servercore:ltsc2022 AS builder
 SHELL ["powershell", "-Command"]
 
-# Metadane obrazu
-LABEL maintainer="Mateusz <kontakt@piatek.dev>" `
-      description="Obraz zawierający InsERT nexoSDK w wersji ${NEXO_VERSION}" `
-      version="${NEXO_VERSION}"
-
 # Instalacja 7-Zip do rozpakowywania archiwum SDK
 RUN Invoke-WebRequest -Uri "https://www.7-zip.org/a/7z1900-x64.msi" -OutFile "7zip.msi"; Start-Process msiexec.exe -ArgumentList '/i 7zip.msi /quiet /norestart' -NoNewWindow -Wait; Remove-Item -Force 7zip.msi
 
