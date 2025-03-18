@@ -1,7 +1,5 @@
 ARG NEXO_VERSION="50_0_2"
 
-LABEL org.opencontainers.image.source=https://github.com/mateo942/NexoDocker
-
 FROM mcr.microsoft.com/windows/servercore:ltsc2022 AS builder
 SHELL ["powershell", "-Command"]
 RUN Invoke-WebRequest -Uri "https://www.7-zip.org/a/7z1900-x64.msi" -OutFile "7zip.msi"; Start-Process msiexec.exe -ArgumentList '/i 7zip.msi /quiet /norestart' -NoNewWindow -Wait; Remove-Item -Force 7zip.msi
