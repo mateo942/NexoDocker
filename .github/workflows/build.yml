@@ -7,29 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      changed_dirs: ${{ steps.filter.outputs.dirs }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Detect changed directories
-        id: filter
-        run: |
-          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'src/.*/Dockerfile' | xargs -n1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')
-          echo "Changed directories: $CHANGED_DIRS"
-          echo "dirs=$CHANGED_DIRS" >> $GITHUB_ENV
-
-  build-and-push:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.changed_dirs != '[]'
+  hello-world:
     runs-on: windows-latest
-    strategy:
-      matrix:
-        dir: ${{ fromJson(needs.detect-changes.outputs.changed_dirs) }}
 
     steps:
       - name: Checkout repository
@@ -45,9 +24,7 @@ jobs:
         run: ls
 
       - name: Build Docker image
-        run: |
-          IMAGE_NAME=my-dockerhub-user/${{ matrix.dir }}
-          docker build -t $IMAGE_NAME ${{ matrix.dir }}
+        run: docker build . -t my-windows-app -f src/54_0_3/Dockerfile
 
       - name: Print Hello World
         run: echo "Hello, World!"
