@@ -1,5 +1,5 @@
 # Definicja wersji SDK, którą chcemy pobrać
-ARG NEXO_VERSION="50_0_2"
+ARG NEXO_VERSION="54_0_2"
 
 FROM mcr.microsoft.com/windows/servercore:ltsc2022 AS builder
 SHELL ["powershell", "-Command"]
