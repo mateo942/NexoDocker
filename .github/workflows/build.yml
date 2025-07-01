@@ -14,7 +14,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        version: ${{ fromJson('[''54_0_3'', ''54_0_2'', ''50_0_1'']') }}
+        version: ${{ fromJson('[''55_0_2'', ''56_0_0'']') }}
 
     steps:
       - name: Checkout repository
